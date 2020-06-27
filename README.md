@@ -37,4 +37,4 @@ Step 7: Open MATLAB and run the final_test.m script. "Test result = 1" will be p
 
 According to the project report, the VHDL codes are highly parameterizable. Therefore, you could modify them to adapt the novel Deconvolution Layer Processor for different application tasks (e.g. semantic segmentation, high-resolution imaging). The MATLAB scripts are also easily parameterizable, so you can verify the correctness of the results for each test performed. Please refer to the additional guide VHDL_template_notes.txt within the doc sub-directory for more details.
 
-Link to YouTube Video: 
+Link to YouTube Video: https://youtu.be/CCn8W2tfqO8
