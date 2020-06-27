@@ -1,0 +1,17 @@
+---------- Write to file notes -----------
+
+Please adapt these lines to write results stored within the DDR to a text file:
+
+1) set logfile [open "[your_MATLAB_directory]\\results.txt" "w"]
+-- the results.txt file is open in write mode within the MATLAB folder
+Directory format:
+- Windows: [your_MATLAB_directory]\\...
+- Linux : [your_MATLAB_directory]\...
+
+2) puts $logfile [mrd BA N]
+-- the DDR is read from the Base Address (BA) and N 32-bit words are written to the results.txt file.
+According to such experiment, you should set BA = 0x01400000 and N = 2278
+
+3) close $logfile
+-- the text file is closed.
+

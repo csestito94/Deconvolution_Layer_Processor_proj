@@ -1,0 +1,47 @@
+---------------------------- VHDL template notes --------------------------------
+
+This file integrates the section Design Reuse described within the report.
+
+According to such report, the design is highly parameterizable. Indeed, all the VHDL scripts are written by means of parametric constructs.
+However, you should carefully adapt the DECONV_LAYER_TOP.vhd to proper implement different configurations of the desidered Deconvolution Layer Processor.
+
+
+Parameters
+-TN = parallel input fmap channels.
+-TM = parallel output fmap channels.
+-K = kernel size.
+-S = stride. 
+-ABIN = address bit-width, related to the next power of two according to ofmap area. In such case, according to the word-packaging, the ofmap area is 1156. The next power of two is 2048, hence ABIN = log2(2048)=11.
+-LAT = DLP latency according to internal pipeline stages.
+-CCsize = ofmap column counter data-width. In such case, each row consists of 34 columns. Therefore, the next power of two is 64, hence CCsize = log2(64)=6.
+-CPsize = counter data-width related to the padding latency. In such case the latency is equal to 70; the next power of two is 128 => log2(128)=7.
+
+
+Entity
+-The AXI-Lite signals are extensively explored within the report.
+-AXI-Stream configurable signals:
+a) s00_axis_tdata refers to the parallel ifmap channels supplied to the core.
+Its size is equal to TN*16, since this DLP deals with 16-bit fixed point data.
+In such case TN = 3, therefore s00_axis_tdata is 48-bit wide.
+b) s01_axis_tdata refers to the parallel kernels supplied to the core.
+Its size could be determined as TN*16. Anyway, in such case the three parallel coefficients per cycle were packed within a 64-bit word, thus the 16 MSBs were unused.
+c) m00_axis_tdata refers to the parallel ofmap channels provided by the core.
+Its size is equal to TM*S*S*16. In suc case TM = 2, S = 2, therefore m00_axis_tdata is 128-bit wide.
+
+
+Architecture
+-Components Declaration: please refer to the report and to each individual VHDL script.
+-Signal Declarations:
+a) signal filtk: width = TN. You should declare TM times this signal.
+b) dint: directly related to the s00_axis_tdata.
+c) qintk: width = S*S. You should declare TM times this signal.
+d) row_int: its width is related to next power of two related the output row to be produced. In such case, since ROWS = 34 => width = 6.
+-Data assignment
+m00_axis_tdata <= qintk(S*S-1)&....&qintk(0) & qintk-1(S*S-1)&....&qintk-1(0) &....& qint0(S*S-1)&....&qint0(0)
+
+
+
+
+
+
+
